@@ -28,7 +28,7 @@ const ProductItemCard = ({ nazwa, czasRealizacji, wielkoscPartii, poziom, liczba
 
           <Form.Group>
             <Form.Label>Poziom</Form.Label>
-            <Form.Control type="number" name="poziom" value={poziom} onChange={handleInputChange} />
+            <Form.Control type="number" name="poziom" value={poziom} onChange={handleInputChange} disabled />
           </Form.Group>
 
           <Form.Group>
