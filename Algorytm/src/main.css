@@ -1,0 +1,6 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
+.row{
+  justify-content: center;
+  padding-block: 4%;
+}
