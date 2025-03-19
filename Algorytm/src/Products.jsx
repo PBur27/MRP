@@ -16,7 +16,7 @@ export default function Products() {
       ...prevProducts,
       [name]: {
         ...prevProducts[name],
-        [key]: value
+        [key]: parseInt(value,10)
       }
     }));
   };
