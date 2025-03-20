@@ -46,13 +46,13 @@ const Ghp = () => {
         }
 
         for (let i = 0; i < updatedData[2].values.length; i++) {
-            if (updatedData[2].values[i] < 0) {
+            while (updatedData[2].values[i] < 0) {
                 updatedData[1].values[i] += wielkoscPartii;
                 for (let j = i; j < updatedData[2].values.length; j++) {
                     updatedData[2].values[j] += wielkoscPartii;
                 }
             }
-            else if (updatedData[2].values[i] >= wielkoscPartii && updatedData[1].values[i] !== 0) {
+            while (updatedData[2].values[i] >= wielkoscPartii && updatedData[1].values[i] !== 0) {
                 updatedData[1].values[i] -= wielkoscPartii;
                 for (let j = i; j < updatedData[2].values.length; j++) {
                     updatedData[2].values[j] -= wielkoscPartii;
