@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Table, Form, Container, Alert } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { Table, Form, Container, Alert,Button } from "react-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 
 
 const initialData = [
@@ -103,6 +103,11 @@ const Ghp = () => {
             </Table>
             <h2>Czas Realizacji = {products["Krzesło"]?.czasRealizacji} </h2>
             <h2>Na Stanie = {products["Krzesło"]?.liczbaNaStanie} </h2>
+
+            <Link to="/mrp" state={[data,products]}>
+                <Button>Przejdź do MRP</Button>
+            </Link>
+            
         </Container>
     );
 };
