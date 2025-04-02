@@ -3,14 +3,23 @@ import { Table, Form, Container, Alert,Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 
 
-const initialData = [
+const initialDataGhp = [
     { label: "Przewidywany Popyt", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
     { label: "Produkcja", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
     { label: "Dostępne", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
 ];
+const initialDataMrp = [
+    { label: "Całkowite Zapotrzebowanie", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { label: "Planowane Przyjęcia", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { label: "Przewidywane na stanie", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { label: "Zapotrzebowanie netto", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { label: "Planowane zamówienia", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { label: "Planowane przyjęcie zamówień", values: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+];
 
-const Ghp = () => {
-    const [data, setData] = useState(initialData);
+const Algorytm = () => {
+    const [ghpData, setGhpData] = useState(initialDataGhp);
+    const [mrpData, setMrpData] = useState(initialDataMrp);
     const [products, setProducts] = useState({});
 
     const location = useLocation();
@@ -20,18 +29,18 @@ const Ghp = () => {
             setProducts({ ...location.state.products });
 
 
-            const updatedData = [...data];
+            const updatedData = [...ghpData];
             const liczbaNaStanie = location.state.products["Krzesło"].liczbaNaStanie;
             updatedData[2].values = updatedData[2].values.map(() => liczbaNaStanie);
-            setData(updatedData);
+            setGhpData(updatedData);
         }
     }, [location.state]);
 
 
-    const handleInputChange = (rowIndex, colIndex, value) => {
+    const handleGhpChange = (rowIndex, colIndex, value) => {
 
-        const oldData = JSON.parse(JSON.stringify(data));
-        const updatedData = JSON.parse(JSON.stringify(data));
+        const oldData = JSON.parse(JSON.stringify(ghpData));
+        const updatedData = JSON.parse(JSON.stringify(ghpData));
         updatedData[rowIndex].values[colIndex] = Number(value);
         recalculateRows(oldData, updatedData, colIndex, value)
     };
@@ -64,14 +73,18 @@ const Ghp = () => {
             }
         }
 
-        setData(updatedData);
+        setGhpData(updatedData);
+    }
+
+    const handleMrpChange = (rowIndex, colIndex, value) => {
+
     }
 
 
     return (
         <Container>
             <Alert variant="primary" className="text-center mt-5">
-                <h1>ALGORYTM GHP</h1>
+                <h1>ALGORYTMY</h1>
             </Alert>
             <Table striped bordered hover>
                 <thead>
@@ -83,7 +96,7 @@ const Ghp = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((row, rowIndex) => (
+                    {ghpData.map((row, rowIndex) => (
                         <tr key={row.label}>
                             <td>{row.label}</td>
                             {row.values.map((value, colIndex) => (
@@ -93,7 +106,7 @@ const Ghp = () => {
                                             type="number"
                                             value={value}
                                             onChange={(e) =>
-                                                handleInputChange(rowIndex, colIndex, e.target.value)
+                                                handleGhpChange(rowIndex, colIndex, e.target.value)
                                             }
                                         />
                                     ) : (
@@ -108,12 +121,43 @@ const Ghp = () => {
             <h2>Czas Realizacji = {products["Krzesło"]?.czasRealizacji} </h2>
             <h2>Na Stanie = {products["Krzesło"]?.liczbaNaStanie} </h2>
 
-            <Link to="/mrp" state={[data,products]}>
-                <Button>Przejdź do MRP</Button>
-            </Link>
+            
+            <h1 className="pt-5">Krzesło</h1>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Tydzień:</th>
+                        {Array.from({ length: 10 }, (_, i) => (
+                            <th key={i}>{i + 1}</th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {mrpData.map((row, rowIndex) => (
+                        <tr key={row.label}>
+                            <td>{row.label}</td>
+                            {row.values.map((value, colIndex) => (
+                                <td key={colIndex}>
+                                    {rowIndex === 1 ? (
+                                        <Form.Control
+                                            type="number"
+                                            value={value}
+                                            onChange={(e) =>
+                                                handleMrpChange(rowIndex, colIndex, e.target.value)
+                                            }
+                                        />
+                                    ) : (
+                                        value
+                                    )}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
             
         </Container>
     );
 };
 
-export default Ghp;
+export default Algorytm;

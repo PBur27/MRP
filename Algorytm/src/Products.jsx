@@ -54,7 +54,7 @@ export default function Products() {
         </Col>
       </Row>
       <Row>
-        <Link to="/ghp" state={{products}}>
+        <Link to="/algorytm" state={{products}}>
           <Button>Zapisz Dane - Przejdź do tabeli GHP</Button>
         </Link>
 
